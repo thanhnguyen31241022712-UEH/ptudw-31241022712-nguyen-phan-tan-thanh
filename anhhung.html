@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đấu trường Anh Hùng JavaScript</title>
+  <style>
+    :root { color-scheme:dark; --gold:#f7be61; --muted:#a2aec3; --line:#ffffff1c; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; color:#f5f7fc; background:radial-gradient(ellipse at 50% -20%,#303955,transparent 60%),#090d18; }
+    .shell { max-width:1200px; margin:auto; padding:0 24px 38px; }
+    header { min-height:78px; display:flex; align-items:center; justify-content:space-between; gap:16px; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:10px; font-size:14px; font-weight:850; letter-spacing:.12em; }
+    .brand-mark { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--gold); color:#17111a; font-size:20px; }
+    button { font:inherit; cursor:pointer; }
+    .sound-toggle { padding:9px 12px; color:#e4eafa; background:#ffffff0c; border:1px solid var(--line); border-radius:9px; font-size:12px; }
+    .heading { padding:32px 0 24px; display:flex; justify-content:space-between; align-items:end; gap:16px; }
+    .eyebrow { color:var(--gold); font-size:11px; letter-spacing:.15em; font-weight:800; text-transform:uppercase; }
+    h1 { margin:8px 0; font-size:clamp(28px,4vw,44px); line-height:1.1; letter-spacing:-.04em; }
+    .sub { color:var(--muted); margin:0; font-size:14px; line-height:1.6; }
+    .badge { border:1px solid #f7be6145; color:var(--gold); border-radius:99px; padding:8px 12px; font-size:11px; font-weight:800; white-space:nowrap; }
+    .grid { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:18px; }
+    .card { background:linear-gradient(145deg,#1b2436,#101725); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 15px 45px #0003; }
+    .arena { position:relative; overflow:hidden; background:linear-gradient(90deg,#0c1524ea,#171422bb,#210f1ee8),url('anhhung.jpg') center 38% / cover; }
+    .arena::after { content:""; position:absolute; inset:auto 0 0; height:38%; background:linear-gradient(transparent,#101725); pointer-events:none; }
+    .arena-head { position:relative; z-index:1; display:flex; justify-content:space-between; padding:20px 24px 0; color:#c4cedd; font-size:11px; font-weight:800; letter-spacing:.1em; }
+    .live { color:#6be2d0; }
+    .fighters { position:relative; z-index:1; display:grid; grid-template-columns:1fr 80px 1fr; align-items:center; text-align:center; padding:25px 18px 18px; }
+    .fighter { position:relative; }
+    .portrait,.dragon { width:122px; height:122px; border-radius:50%; }
+    .portrait { object-fit:cover; border:3px solid #8fdfd1; box-shadow:0 0 0 8px #71d9c215,0 0 45px #64dfc22b; }
+    .dragon { display:grid; place-items:center; margin:auto; background:radial-gradient(circle,#71424a,#241622); border:3px solid #e77a77; box-shadow:0 0 0 8px #ff6f6615,0 0 45px #f0675b2b; font-size:68px; }
+    .versus { font-size:25px; font-weight:950; font-style:italic; color:#f9c577; text-shadow:0 0 25px #f6b85388; }
+    .fighter-name { margin:15px 0 3px; font-size:19px; font-weight:800; }
+    .fighter-label { color:#aebacf; font-size:11px; text-transform:uppercase; letter-spacing:.1em; }
+    .healths { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:28px; padding:0 24px 24px; }
+    .health-label { display:flex; justify-content:space-between; gap:6px; margin-bottom:8px; font-size:12px; font-weight:700; }
+    .health-label span { color:var(--muted); }
+    .track { height:9px; border-radius:8px; overflow:hidden; background:#050810aa; }
+    .fill { height:100%; width:100%; border-radius:inherit; transition:width .35s ease; background:linear-gradient(90deg,#36bcae,#8bedc8); }
+    .dragon-fill { background:linear-gradient(90deg,#d1495b,#ff8a7a); }
+    .controls { padding:22px 24px; border-top:1px solid var(--line); }
+    .status { margin:0 0 16px; color:#cbd5e3; font-size:14px; line-height:1.5; }
+    .buttons { display:flex; flex-wrap:wrap; gap:10px; }
+    .btn { min-height:44px; padding:0 18px; color:#f5f7ff; background:#263148; border:1px solid #ffffff20; border-radius:10px; font-size:13px; font-weight:800; }
+    .btn:hover:not(:disabled) { filter:brightness(1.15); }
+    button:focus-visible { outline:3px solid white; outline-offset:3px; }
+    .btn:disabled { opacity:.38; cursor:not-allowed; }
+    .primary { color:#20160c; background:linear-gradient(120deg,#f9d489,#efa84d); border-color:transparent; }
+    .attack { background:linear-gradient(120deg,#d95160,#a62e49); border-color:transparent; }
+    .hint { margin:14px 0 0; color:#9ba8bb; font-size:12px; line-height:1.55; }
+    .side { display:flex; flex-direction:column; gap:18px; }
+    .panel { padding:21px; }
+    .panel-title { display:flex; justify-content:space-between; align-items:center; margin:0 0 18px; font-size:14px; }
+    .panel-title small { color:var(--muted); font-size:10px; letter-spacing:.08em; }
+    .identity { display:flex; align-items:center; gap:12px; padding-bottom:17px; border-bottom:1px solid var(--line); }
+    .avatar { width:44px; height:44px; object-fit:cover; border-radius:12px; }
+    .identity strong { display:block; font-size:13px; } .identity span { display:block; color:var(--muted); font-size:11px; margin-top:4px; }
+    .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:16px 0; }
+    .stat { background:#ffffff08; border:1px solid #ffffff0b; border-radius:10px; padding:11px 4px; text-align:center; }
+    .stat b { display:block; color:#f4d49d; font-size:19px; } .stat span { color:var(--muted); font-size:10px; }
+    .detail { display:flex; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; padding:7px 0; } .detail strong { color:#eef2fa; }
+    .log-card { margin-top:18px; }
+    .log-head { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--line); }
+    .log-head h2 { margin:0; font-size:14px; } .log-head span { color:var(--muted); font-size:11px; }
+    #nhat-ky { height:220px; overflow:auto; padding:8px 22px 18px; }
+    #nhat-ky p { position:relative; margin:0; padding:8px 0 8px 14px; color:#bdc8d9; font-size:13px; line-height:1.5; border-bottom:1px solid #ffffff0a; }
+    #nhat-ky p::before { content:""; position:absolute; left:0; top:16px; width:5px; height:5px; border-radius:50%; background:var(--gold); }
+    #gioi-thieu { color:var(--muted); font-size:12px; line-height:1.55; }
+    .fighter.hero-action img { animation:hero-attack .55s ease; }
+    .fighter.dragon-action .dragon { animation:dragon-attack .55s ease; }
+    .fighter.hit img,.fighter.hit .dragon { animation:hit .5s ease; }
+    .fighter.dodge img,.fighter.dodge .dragon { animation:dodge .5s ease; }
+    .combat-effect { position:absolute; z-index:5; top:12%; left:0; right:0; pointer-events:none; text-align:center; opacity:0; }
+    .combat-effect.show { animation:effect-pop .65s ease-out forwards; }
+    .combat-effect svg { width:clamp(90px,22vw,190px); height:130px; filter:drop-shadow(0 0 14px #ffb353); }
+    .damage { position:absolute; left:0; right:0; top:20px; color:#fff1b2; font-size:26px; font-weight:950; text-shadow:0 2px 5px #000,0 0 20px #ff592b; }
+    @keyframes hero-attack { 35% { transform:translateX(40px) scale(1.12) rotate(6deg); } 100% { transform:none; } }
+    @keyframes dragon-attack { 35% { transform:translateX(-40px) scale(1.12) rotate(-6deg); } 100% { transform:none; } }
+    @keyframes hit { 20%,60% { transform:translateX(-10px); filter:brightness(2); } 40%,80% { transform:translateX(10px); filter:brightness(1.5); } }
+    @keyframes dodge { 40% { transform:translateY(-24px) rotate(-9deg); opacity:.65; } }
+    @keyframes effect-pop { 0% { opacity:0; transform:scale(.4) rotate(-15deg); } 25% { opacity:1; transform:scale(1.15); } 75% { opacity:1; } 100% { opacity:0; transform:scale(1.3) translateY(-25px); } }
+    footer { color:#8290a5; text-align:center; font-size:11px; padding-top:25px; }
+    @media(max-width:760px) { .shell { padding:0 16px 28px; } .heading { align-items:start; flex-direction:column; } .grid { grid-template-columns:1fr; } .portrait,.dragon { width:90px; height:90px; } .dragon { font-size:50px; } .fighters { grid-template-columns:1fr 45px 1fr; } .healths { gap:14px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; animation-duration:.01ms!important; animation-iteration-count:1!important; } }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header><div class="brand"><span class="brand-mark">✦</span> JS HERO / ARENA</div><button class="sound-toggle" id="am-thanh" type="button" aria-pressed="true">🔊 Âm thanh: Bật</button></header>
+  <section class="heading"><div><span class="eyebrow">⚔ Hành trình của bạn bắt đầu</span><h1>Đấu trường diệt rồng</h1><p class="sub">Chọn phân cấp, phát huy sức mạnh và chinh phục Rồng Già.</p></div><span class="badge">QUEST 01 — 09</span></section>
+  <div class="grid">
+    <main>
+      <section class="card" aria-label="Đấu trường">
+        <div class="arena">
+          <div class="arena-head"><span>ĐẤU TRƯỜNG SINH TỬ</span><span class="live">● TRẬN CHIẾN</span></div>
+          <div class="fighters">
+            <div class="fighter" id="hero-fighter"><img class="portrait" src="anhhung.jpg" alt="Hình anh hùng"><div class="fighter-name">Anh hùng</div><div class="fighter-label" id="arena-class">Sẵn sàng chiến đấu</div></div>
+            <div class="versus">VS</div>
+            <div class="fighter" id="dragon-fighter"><div class="dragon" role="img" aria-label="Rồng Già">🐉</div><div class="fighter-name">Rồng Già</div><div class="fighter-label">Kẻ canh giữ</div></div>
+          </div>
+          <div class="combat-effect" id="combat-effect" aria-hidden="true"><svg id="effect-svg" viewBox="0 0 200 130" fill="none"></svg><span class="damage" id="damage"></span></div>
+          <div class="healths"><div><div class="health-label">SINH LỰC <span id="hero-health">105 / 105</span></div><div class="track"><div id="hero-bar" class="fill"></div></div></div><div><div class="health-label">SINH LỰC <span id="dragon-health">600 / 600</span></div><div class="track"><div id="dragon-bar" class="fill dragon-fill"></div></div></div></div>
+        </div>
+        <div class="controls"><p class="status" id="trang-thai" aria-live="polite">Sẵn sàng trở thành anh hùng? Hãy bắt đầu hành trình.</p><div class="buttons"><button class="btn primary" id="bat-dau">Bắt đầu hành trình →</button><button class="btn attack" id="tan-cong" disabled>⚔ Tấn công</button><button class="btn" id="tra-loi" disabled>Trả lời câu hỏi</button></div><p class="hint">Chọn a: Chiến Binh · b: Sát Thủ · c: Thợ Săn. Nhấn Tấn công mỗi lượt và bật loa để nghe hiệu ứng.</p><p id="mau" hidden></p></div>
+      </section>
+      <section class="card log-card"><div class="log-head"><h2>📜 Nhật ký hành trình</h2><span>DIỄN BIẾN TRẬN ĐẤU</span></div><div id="nhat-ky" role="log" aria-live="polite"><p>Hành trình của bạn đang chờ bắt đầu.</p></div></section>
+    </main>
+    <aside class="side">
+      <section class="card panel"><h2 class="panel-title">Hồ sơ anh hùng <small>PLAYER 01</small></h2><div class="identity"><img class="avatar" src="anhhung.jpg" alt=""><div><strong>Nguyễn Phan Tân Thành</strong><span>MSSV 31241022712</span></div></div><div class="stat-grid"><div class="stat"><b id="stat-strength">—</b><span>Sức mạnh</span></div><div class="stat"><b id="stat-agility">—</b><span>Nhanh nhẹn</span></div><div class="stat"><b id="stat-intel">—</b><span>Trí tuệ</span></div></div><div class="detail">Phân cấp <strong id="stat-class">Chưa chọn</strong></div><div class="detail">Cấp độ <strong id="stat-level">1</strong></div><div class="detail">Kinh nghiệm <strong id="stat-xp">0 XP</strong></div></section>
+      <section class="card panel"><h2 class="panel-title">Nhiệm vụ của bạn <small>QUEST 01</small></h2><p id="gioi-thieu"></p><p class="hint">Mỗi lượt có thể đánh trúng, né đòn hoặc gây sát thương chí mạng. Hãy đánh bại Rồng Già!</p></section>
+    </aside>
+  </div>
+  <footer>ANH HÙNG JAVASCRIPT · BÀI THỰC HÀNH CHƯƠNG 4</footer>
+</div>
+<script src="anhhung.js"></script>
+</body>
+</html>
