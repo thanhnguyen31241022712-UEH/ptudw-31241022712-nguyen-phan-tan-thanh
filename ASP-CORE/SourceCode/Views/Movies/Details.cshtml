@@ -1,0 +1,24 @@
+@model _31241022712_NguyenPhanTanThanh.Models.Movie
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="movie-detail">
+    <img class="detail-poster" src="@Model.PicturePath" alt="@Model.Title" />
+    <div class="detail-content">
+        <span class="genre-badge">@Model.GenreObj?.Name</span>
+        <h1>@Model.Title</h1>
+        <p class="detail-summary">@Model.Summary</p>
+        <div class="detail-stats">
+            <div><span>Khởi chiếu</span><strong>@Model.ReleaseDate.ToString("dd/MM/yyyy")</strong></div>
+            <div><span>Đánh giá</span><strong>★ @Model.Rated / 5</strong></div>
+            <div><span>Giá vé</span><strong>@Model.Price.ToString("N0") VNĐ</strong></div>
+        </div>
+        <div class="movie-actions">
+            <a class="btn btn-ghost" asp-action="Index">Quay lại</a>
+            <a class="btn btn-ghost" asp-action="Edit" asp-route-id="@Model.ID">Chỉnh sửa</a>
+            <a class="btn btn-accent" asp-action="AddToCart" asp-route-id="@Model.ID">Thêm vào giỏ</a>
+        </div>
+    </div>
+</section>

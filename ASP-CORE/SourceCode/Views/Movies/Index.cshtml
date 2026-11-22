@@ -1,0 +1,51 @@
+@model IEnumerable<_31241022712_NguyenPhanTanThanh.Models.Movie>
+
+@{
+    ViewData["Title"] = "Khám phá phim";
+}
+
+<section class="cinema-hero">
+    <div class="hero-kicker">PHIM ĐƯỢC TUYỂN CHỌN</div>
+    <h1>Tan Thanh Cinema</h1>
+    <p>Chạm vào những câu chuyện khiến bạn không thể rời mắt.</p>
+    <a class="btn btn-accent" href="#movie-list">Xem danh sách phim</a>
+</section>
+
+<section id="movie-list" class="movie-section">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">BỘ SƯU TẬP</span>
+            <h2>Phim nổi bật</h2>
+        </div>
+        <span class="movie-count">@Model.Count() phim</span>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-lg-4">
+                <article class="movie-card h-100">
+                    <div class="movie-poster-wrap">
+                        <img src="@item.PicturePath" class="movie-poster" alt="@item.Title" />
+                        <span class="genre-badge">@item.GenreObj?.Name</span>
+                    </div>
+                    <div class="movie-card-body">
+                        <div class="movie-title-row">
+                            <h3>@item.Title</h3>
+                            <span class="rating">★ @item.Rated</span>
+                        </div>
+                        <p class="movie-summary">@item.Summary</p>
+                        <div class="movie-meta">
+                            <span>@item.ReleaseDate.ToString("dd/MM/yyyy")</span>
+                            <strong>@item.Price.ToString("N0") VNĐ</strong>
+                        </div>
+                        <div class="movie-actions">
+                            <a class="btn btn-ghost" asp-action="Details" asp-route-id="@item.ID">Chi tiết</a>
+                            <a class="btn btn-accent" asp-action="AddToCart" asp-route-id="@item.ID">Mua vé</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+</section>

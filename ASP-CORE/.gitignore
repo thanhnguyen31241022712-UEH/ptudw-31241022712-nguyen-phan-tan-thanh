@@ -1,0 +1,17 @@
+# Build artifacts and local IDE files
+SourceCode/bin/
+SourceCode/obj/
+SourceCode/.vs/
+SourceCode/publish/
+SourceCode/publish_final/
+SourceCode/backup_ui_*/
+
+# Local and sensitive configuration
+SourceCode/appsettings.json
+SourceCode/appsettings.Development.json
+SourceCode/app.db
+SourceCode/*.user
+SourceCode/*.suo
+
+# Runtime logs
+SourceCode/logs/

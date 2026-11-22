@@ -1,0 +1,49 @@
+@model _31241022712_NguyenPhanTanThanh.Models.ShippingDetail
+
+@{
+    ViewBag.Title = "Thanh toán";
+}
+
+<section class="checkout-page">
+    <div class="checkout-intro">
+        <span class="section-kicker">HOÀN TẤT ĐƠN HÀNG</span>
+        <h1>Thông tin nhận vé</h1>
+        <p>Điền thông tin của bạn. Chúng tôi sẽ gửi xác nhận đơn hàng qua email.</p>
+    </div>
+
+<form asp-action="Checkout" method="post" class="cinema-form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Mobile" class="form-label"></label>
+        <input asp-for="Mobile" class="form-control" />
+        <span asp-validation-for="Mobile" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-accent w-100">Hoàn tất đặt vé</button>
+</form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

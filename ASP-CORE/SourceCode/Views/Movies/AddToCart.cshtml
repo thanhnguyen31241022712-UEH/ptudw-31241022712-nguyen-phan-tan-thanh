@@ -1,0 +1,61 @@
+@model _31241022712_NguyenPhanTanThanh.Models.HoaDon
+
+@{
+    ViewBag.Title = "Giỏ vé";
+}
+
+<section class="page-heading compact-heading">
+    <div>
+        <span class="section-kicker">TAN THANH CINEMA</span>
+        <h1>Giỏ vé của bạn</h1>
+        <p>Kiểm tra phim đã chọn trước khi thanh toán.</p>
+    </div>
+</section>
+
+<div class="cinema-table-wrap">
+<table id="cartTable" class="table cinema-table">
+    <thead>
+        <tr>
+            <th>Số lượng</th>
+            <th>Phim</th>
+            <th class="text-end">Giá</th>
+            <th class="text-end">Thành tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var hoaDonChiTiet in Model.ChiTietHoaDons)
+        {
+            <tr>
+                <td class="text-center">@hoaDonChiTiet.SoLuong</td>
+                <td class="text-start">@hoaDonChiTiet.MovieObj.Title</td>
+                <td class="text-end">@hoaDonChiTiet.MovieObj.Price.ToString("N0")</td>
+                <td class="text-end">
+                    @((hoaDonChiTiet.SoLuong * hoaDonChiTiet.MovieObj.Price).ToString("N0"))
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-warning"
+                       asp-action="RemoveFromCart"
+                       asp-route-maMovies="@hoaDonChiTiet.MaMovie">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-end">Tổng cộng:</td>
+            <td class="text-end">@Model.TongTien.ToString("N0") VNĐ</td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+<div class="cart-footer-actions">
+    <a class="btn btn-ghost" asp-action="Index">Tiếp tục chọn phim</a>
+    <a class="btn btn-accent" asp-action="Checkout">Thanh toán</a>
+</div>

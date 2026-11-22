@@ -1,0 +1,19 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace _31241022712_NguyenPhanTanThanh.Validation;
+
+public class CheckDateGreaterThanTodayAttribute : ValidationAttribute
+{
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        DateTime dt = (DateTime)value;
+
+        if (dt >= DateTime.UtcNow)
+        {
+            return ValidationResult.Success;
+        }
+
+        return new ValidationResult(
+            ErrorMessage ?? "Dữ liệu ngày phải lớn hơn ngày hôm nay");
+    }
+}

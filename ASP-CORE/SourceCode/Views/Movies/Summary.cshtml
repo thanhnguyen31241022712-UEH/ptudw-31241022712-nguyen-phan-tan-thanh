@@ -1,0 +1,9 @@
+@model _31241022712_NguyenPhanTanThanh.Models.HoaDon
+
+<div class="cart-summary ms-lg-3">
+    <a asp-controller="Movies" asp-action="Checkout" class="cart-summary-link" aria-label="Giỏ hàng">
+        <span class="cart-icon">🛒</span>
+        <span>@Model.ChiTietHoaDons.Sum(x => x.SoLuong) phim</span>
+        <strong>@Model.TongTien.ToString("N0") VNĐ</strong>
+    </a>
+</div>

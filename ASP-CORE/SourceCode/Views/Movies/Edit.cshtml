@@ -1,0 +1,72 @@
+@model _31241022712_NguyenPhanTanThanh.Models.Movie
+
+@{
+    ViewData["Title"] = "Chỉnh sửa phim";
+}
+
+<section class="checkout-page">
+    <div class="checkout-intro">
+        <span class="section-kicker">QUẢN LÝ NỘI DUNG</span>
+        <h1>Chỉnh sửa phim</h1>
+        <p>Không chọn poster mới nếu bạn muốn giữ lại hình hiện có.</p>
+    </div>
+        <form asp-action="Edit" enctype="multipart/form-data" class="cinema-form">
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="PicturePath" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Summary" class="control-label"></label>
+                <textarea asp-for="Summary" class="form-control"></textarea>
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="GenreID" class="form-label">Thể loại</label>
+                <select asp-for="GenreID" class="form-control" asp-items="ViewBag.GenreID"></select>
+                <span asp-validation-for="GenreID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Rated" class="control-label"></label>
+                <input asp-for="Rated" class="form-control" />
+                <span asp-validation-for="Rated" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="PictureUpload" class="control-label"></label>
+                <input asp-for="PictureUpload" type="file" class="form-control" />
+                <span asp-validation-for="PictureUpload" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-accent" />
+                <a asp-action="Index" class="btn btn-ghost">Quay lại</a>
+            </div>
+        </form>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

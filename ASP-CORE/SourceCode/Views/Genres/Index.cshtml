@@ -1,0 +1,43 @@
+@model IEnumerable<_31241022712_NguyenPhanTanThanh.Models.Genre>
+
+@{
+    ViewData["Title"] = "Thể loại phim";
+}
+
+<section class="page-heading">
+    <div>
+        <span class="section-kicker">QUẢN LÝ NỘI DUNG</span>
+        <h1>Thể loại phim</h1>
+        <p>Phân loại các bộ phim trong kho nội dung của Tan Thanh Cinema.</p>
+    </div>
+    <a class="btn btn-accent" asp-action="Create">+ Thêm thể loại</a>
+</section>
+
+<div class="cinema-table-wrap">
+<table class="table cinema-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-end">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <div class="table-actions justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@item.ID">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.ID">Chi tiết</a>
+                    <a class="danger-link" asp-action="Delete" asp-route-id="@item.ID">Xóa</a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
